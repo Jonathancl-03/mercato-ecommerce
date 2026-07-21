@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: mercato-ecommerce
+    runtime: docker
+    rootDir: ecommerce-portafolio
+    plan: free
+    autoDeploy: true
