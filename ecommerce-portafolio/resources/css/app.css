@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #F7F5F1;
+    color: #1C1F26;
+}
+
+.font-display {
+    font-family: 'Fraunces', serif;
+}
+body {
+    background-color: #F7F5F1;
+    color: #1C1F26;
+}
+
+.dark body {
+    background-color: #14171C;
+}
+
+.font-display {
+    font-family: 'Fraunces', serif;
+}
+
+/* ===== Modo oscuro global (sobreescribe utilidades existentes) ===== */
+.dark .bg-white { background-color: #1C2027 !important; }
+.dark .bg-stone-50 { background-color: #14171C !important; }
+.dark .bg-stone-100 { background-color: #262B33 !important; }
+
+.dark .border-stone-100 { border-color: #2A2F38 !important; }
+
+.dark .text-ink-900 { color: #F0EEE9 !important; }
+.dark .text-ink-900\/80 { color: rgba(240, 238, 233, 0.8) !important; }
+.dark .text-ink-900\/70 { color: rgba(240, 238, 233, 0.7) !important; }
+.dark .text-ink-900\/60 { color: rgba(240, 238, 233, 0.6) !important; }
+.dark .text-ink-900\/50 { color: rgba(240, 238, 233, 0.5) !important; }
+.dark .text-ink-900\/40 { color: rgba(240, 238, 233, 0.4) !important; }
+
+.dark .bg-forest-600\/5 { background-color: rgba(45, 74, 62, 0.15) !important; }
+.dark .bg-forest-600\/10 { background-color: rgba(45, 74, 62, 0.25) !important; }
+
+.dark .bg-red-50 { background-color: rgba(220, 38, 38, 0.1) !important; }
+.dark .bg-red-100 { background-color: rgba(220, 38, 38, 0.15) !important; }
+.dark .border-red-200 { border-color: rgba(220, 38, 38, 0.3) !important; }
+
+.dark input,
+.dark select,
+.dark textarea {
+    background-color: #1C2027 !important;
+    color: #F0EEE9 !important;
+    border-color: #2A2F38 !important;
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: rgba(240, 238, 233, 0.35) !important;
+}
+
+.dark table thead tr { background-color: #14171C !important; }
+.dark table tbody tr { border-color: #2A2F38 !important; }
+
+.dark .bg-white.shadow-lg { background-color: #1C2027 !important; }
+
+/* Fondo crema en vez de blanco puro (modo claro) */
+.bg-white {
+    background-color: #FBF8F2 !important;
+}
