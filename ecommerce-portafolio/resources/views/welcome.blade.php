@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -62,7 +62,7 @@
 
         .section-card {
             opacity: 0;
-            transform: translateY(40px) scale(0.96);
+            transform: translateY(24px) scale(0.985);
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -74,9 +74,56 @@
         .scroll-section {
             position: relative;
             overflow: hidden;
-            height: 100vh;
+            min-height: 100vh;
             width: 100%;
             will-change: transform, opacity, filter;
+        }
+
+        .section-shell {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .section-shell::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, rgba(201, 162, 39, 0.12), transparent 30%),
+                linear-gradient(135deg, rgba(45, 74, 62, 0.04) 0%, transparent 65%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .section-panel {
+            background: rgba(255, 255, 255, 0.84);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 24px 70px rgba(20, 23, 28, 0.08);
+        }
+
+        .dark .section-panel {
+            background: rgba(20, 23, 28, 0.82);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+        }
+
+        .section-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid rgba(45, 74, 62, 0.14);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 9999px;
+            padding: 0.5rem 0.9rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .dark .section-pill {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.12);
         }
 
         .glass-pill {
@@ -303,102 +350,154 @@
         </div>
     </section>
 
-    @if($spotlight)
-        <!-- ===== SPOTLIGHT ===== -->
-        <section id="spotlight"
-            class="scroll-section relative bg-black flex flex-col items-center justify-center px-6 py-16">
-            <canvas id="spotlight-particles" class="absolute inset-0 w-full h-full z-0"></canvas>
-            <div
-                class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none select-none overflow-hidden">
-                <span class="font-display font-bold uppercase text-white/[0.04] leading-none whitespace-nowrap"
-                    style="font-size: 14vw; letter-spacing: -0.02em;">
-                    {{ $spotlight->category->name }}
-                </span>
-            </div>
-            <div class="relative z-10 flex flex-col items-center text-center w-full">
-                <span
-                    class="spotlight-fade inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-xs font-semibold uppercase tracking-widest text-mustard-500 mb-6">
-                    Producto en foco
-                </span>
-                <div id="spotlight-tilt-wrap" class="spotlight-fade relative w-56 h-56 md:w-80 md:h-80 mb-8"
-                    style="animation-delay: 0.1s; perspective: 800px;">
-                    <div id="spotlight-tilt" class="relative w-full h-full transition-transform duration-200 ease-out"
-                        style="transform-style: preserve-3d;">
-                        <img src="{{ $spotlight->image }}" alt="{{ $spotlight->name }}"
-                            class="w-full h-full object-cover rounded-2xl shadow-2xl border border-white/10">
-                        <button type="button" data-tooltip="Categoría: {{ $spotlight->category->name }}"
-                            class="spotlight-hotspot absolute top-4 left-4 w-6 h-6 rounded-full bg-white/20 border border-white/40 backdrop-blur-sm flex items-center justify-center">
-                            <span class="w-2 h-2 rounded-full bg-white animate-ping absolute"></span>
-                            <span class="w-2 h-2 rounded-full bg-white relative"></span>
-                        </button>
-                        <button type="button"
-                            data-tooltip="Precio: S/ {{ number_format($spotlight->discount_price ?? $spotlight->price, 2) }}"
-                            class="spotlight-hotspot absolute bottom-6 right-6 w-6 h-6 rounded-full bg-white/20 border border-white/40 backdrop-blur-sm flex items-center justify-center">
-                            <span class="w-2 h-2 rounded-full bg-white animate-ping absolute"></span>
-                            <span class="w-2 h-2 rounded-full bg-white relative"></span>
-                        </button>
-                        <button type="button" data-tooltip="Stock disponible: {{ $spotlight->stock }} unidades"
-                            class="spotlight-hotspot absolute top-1/2 -right-2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/20 border border-white/40 backdrop-blur-sm flex items-center justify-center">
-                            <span class="w-2 h-2 rounded-full bg-white animate-ping absolute"></span>
-                            <span class="w-2 h-2 rounded-full bg-white relative"></span>
-                        </button>
+    <section class="relative z-20 -mt-8 px-4 sm:px-6 lg:px-8">
+        <div class="section-panel mx-auto max-w-7xl rounded-[2rem] border border-stone-200/80 p-6 sm:p-8 lg:p-10">
+            <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+                <div class="max-w-2xl">
+                    <span class="section-pill text-forest-700 dark:text-forest-400">Mercato, pensado para moverse</span>
+                    <h2 class="mt-4 font-display text-3xl md:text-4xl font-semibold text-ink-900 dark:text-white">
+                        Una experiencia más clara, más rápida y más bonita.
+                    </h2>
+                    <p class="mt-4 text-base leading-7 text-ink-900/70 dark:text-white/70">
+                        Después del video, la página toma un ritmo más editorial para ayudarte a descubrir productos, categorías y beneficios con menos esfuerzo y más emoción.
+                    </p>
+                </div>
+                <div class="grid flex-1 gap-3 sm:grid-cols-3 lg:max-w-xl">
+                    <div class="rounded-2xl border border-stone-200/70 bg-stone-50/80 p-4 dark:border-white/10 dark:bg-white/5">
+                        <p class="text-2xl font-semibold text-ink-900 dark:text-white">500+</p>
+                        <p class="mt-1 text-sm text-ink-900/60 dark:text-white/60">productos seleccionados</p>
+                    </div>
+                    <div class="rounded-2xl border border-stone-200/70 bg-stone-50/80 p-4 dark:border-white/10 dark:bg-white/5">
+                        <p class="text-2xl font-semibold text-ink-900 dark:text-white">24h</p>
+                        <p class="mt-1 text-sm text-ink-900/60 dark:text-white/60">entregas ágiles</p>
+                    </div>
+                    <div class="rounded-2xl border border-stone-200/70 bg-stone-50/80 p-4 dark:border-white/10 dark:bg-white/5">
+                        <p class="text-2xl font-semibold text-ink-900 dark:text-white">100%</p>
+                        <p class="mt-1 text-sm text-ink-900/60 dark:text-white/60">pagos protegidos</p>
                     </div>
                 </div>
-                <h2 class="spotlight-fade font-display text-3xl md:text-5xl font-semibold text-white mb-3"
-                    style="animation-delay: 0.2s">
-                    {{ $spotlight->name }}
-                </h2>
-                <p class="spotlight-fade text-white/50 max-w-lg mb-8" style="animation-delay: 0.3s">
-                    {{ Str::limit($spotlight->description, 120) }}
-                </p>
-                <a href="{{ route('products.show', $spotlight->slug) }}" data-magnetic
-                    class="spotlight-fade inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white text-black font-semibold hover:bg-stone-100 transition-colors"
-                    style="animation-delay: 0.4s">
-                    Comprar ahora
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8m9 0v9" />
-                    </svg>
-                </a>
+            </div>
+        </div>
+    </section>
+
+    @if($spotlight)
+        <!-- ===== SPOTLIGHT ===== -->
+        <section id="spotlight" class="scroll-section section-shell flex items-center bg-[radial-gradient(circle_at_top_left,_rgba(201,162,39,0.14),_transparent_25%),linear-gradient(135deg,_rgba(20,23,28,0.98)_0%,_rgba(12,15,18,1)_100%)] px-4 py-20 sm:py-24">
+            <div class="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="section-pill border-white/15 bg-white/10 text-mustard-400">Producto en foco</span>
+                    <h2 class="mt-5 font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-white">
+                        {{ $spotlight->name }}
+                    </h2>
+                    <p class="mt-4 text-base leading-7 text-white/70">
+                        {{ Str::limit($spotlight->description, 140) }}
+                    </p>
+                    <div class="mt-8 flex flex-wrap gap-3">
+                        <a href="{{ route('products.show', $spotlight->slug) }}" data-magnetic
+                            class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-ink-900 transition-colors hover:bg-stone-100">
+                            Comprar ahora
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8m9 0v9" />
+                            </svg>
+                        </a>
+                        <a href="{{ route('home') }}?category={{ $spotlight->category->name }}" data-magnetic
+                            class="inline-flex items-center rounded-full border border-white/20 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10">
+                            Ver categoría
+                        </a>
+                    </div>
+                    <div class="mt-8 grid gap-3 sm:grid-cols-3">
+                        <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+                            <p class="text-lg font-semibold text-white">{{ $spotlight->category->name }}</p>
+                            <p class="mt-1 text-sm text-white/60">Categoría</p>
+                        </div>
+                        <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+                            <p class="text-lg font-semibold text-white">S/ {{ number_format($spotlight->discount_price ?? $spotlight->price, 2) }}</p>
+                            <p class="mt-1 text-sm text-white/60">Precio</p>
+                        </div>
+                        <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+                            <p class="text-lg font-semibold text-white">{{ $spotlight->stock }} uds.</p>
+                            <p class="mt-1 text-sm text-white/60">Disponibles</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative mx-auto w-full max-w-xl">
+                    <canvas id="spotlight-particles" class="absolute inset-0 w-full h-full z-0"></canvas>
+                    <div class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none select-none overflow-hidden">
+                        <span class="font-display font-bold uppercase text-white/[0.04] leading-none whitespace-nowrap"
+                            style="font-size: 14vw; letter-spacing: -0.02em;">
+                            {{ $spotlight->category->name }}
+                        </span>
+                    </div>
+                    <div id="spotlight-tilt-wrap" class="spotlight-fade relative mx-auto w-full max-w-[24rem] overflow-hidden rounded-[2rem] border border-white/15 shadow-[0_30px_90px_rgba(0,0,0,0.35)]"
+                        style="animation-delay: 0.1s; perspective: 800px;">
+                        <div id="spotlight-tilt" class="relative aspect-square w-full transition-transform duration-200 ease-out"
+                            style="transform-style: preserve-3d;">
+                            <img src="{{ $spotlight->image }}" alt="{{ $spotlight->name }}"
+                                class="h-full w-full object-cover">
+                            <button type="button" data-tooltip="Categoría: {{ $spotlight->category->name }}"
+                                class="spotlight-hotspot absolute top-4 left-4 w-6 h-6 rounded-full bg-white/20 border border-white/40 backdrop-blur-sm flex items-center justify-center">
+                                <span class="w-2 h-2 rounded-full bg-white animate-ping absolute"></span>
+                                <span class="w-2 h-2 rounded-full bg-white relative"></span>
+                            </button>
+                            <button type="button"
+                                data-tooltip="Precio: S/ {{ number_format($spotlight->discount_price ?? $spotlight->price, 2) }}"
+                                class="spotlight-hotspot absolute bottom-6 right-6 w-6 h-6 rounded-full bg-white/20 border border-white/40 backdrop-blur-sm flex items-center justify-center">
+                                <span class="w-2 h-2 rounded-full bg-white animate-ping absolute"></span>
+                                <span class="w-2 h-2 rounded-full bg-white relative"></span>
+                            </button>
+                            <button type="button" data-tooltip="Stock disponible: {{ $spotlight->stock }} unidades"
+                                class="spotlight-hotspot absolute top-1/2 -right-2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/20 border border-white/40 backdrop-blur-sm flex items-center justify-center">
+                                <span class="w-2 h-2 rounded-full bg-white animate-ping absolute"></span>
+                                <span class="w-2 h-2 rounded-full bg-white relative"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     @endif
 
     <!-- ===== PRODUCTOS DESTACADOS ===== -->
-    <section class="scroll-section flex items-center bg-stone-50 dark:bg-ink-900">
-        <div class="max-w-7xl mx-auto w-full px-4">
-            <div class="flex items-end justify-between">
+    <section class="scroll-section section-shell flex items-center bg-stone-50 px-4 py-20 dark:bg-ink-900 sm:py-24">
+        <div class="mx-auto w-full max-w-7xl">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                    <span class="eyebrow text-forest-600 dark:text-forest-500">Seleccionados para ti</span>
-                    <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink-900 dark:text-white mt-2">
-                        Productos
-                        destacados</h2>
+                    <span class="section-pill text-forest-700 dark:text-forest-400">Seleccionados para ti</span>
+                    <h2 class="mt-4 font-display text-3xl md:text-4xl font-semibold text-ink-900 dark:text-white">
+                        Productos destacados
+                    </h2>
+                    <p class="mt-3 max-w-2xl text-base leading-7 text-ink-900/65 dark:text-white/65">
+                        Una selección cuidada para que cada descubrimiento se sienta claro, útil y apetecible.
+                    </p>
                 </div>
                 <a href="{{ route('home') }}" data-magnetic
-                    class="hidden sm:inline-block text-sm font-medium text-forest-600 hover:underline whitespace-nowrap">
+                    class="inline-flex items-center text-sm font-medium text-forest-600 hover:underline whitespace-nowrap">
                     Ver todo →
                 </a>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+            <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach($featured as $product)
                     <div
-                        class="section-card group relative flex flex-col items-center justify-start overflow-hidden rounded-2xl border border-stone-100 dark:border-white/10 bg-white dark:bg-ink-900 p-6 text-center shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                        <div
-                            class="relative mb-4 flex h-40 w-full items-center justify-center overflow-hidden rounded-xl bg-stone-50 dark:bg-white/5">
+                        class="section-card group relative flex flex-col items-start overflow-hidden rounded-[1.5rem] border border-stone-200/80 bg-white p-5 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-ink-900">
+                        <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-forest-600/10 to-transparent"></div>
+                        <div class="relative mb-4 flex h-40 w-full items-center justify-center overflow-hidden rounded-2xl bg-stone-50 dark:bg-white/5">
                             <img src="{{ $product->image }}" alt="{{ $product->name }}"
                                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
                         </div>
-                        <div class="flex flex-grow flex-col items-center gap-1">
-                            <h3 class="font-semibold text-ink-900 dark:text-white">{{ $product->name }}</h3>
-                            <p class="text-sm text-ink-900/50 dark:text-white/50">{{ $product->category->name }}</p>
+                        <div class="flex w-full items-center justify-between text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-400">
+                            <span>{{ $product->category->name }}</span>
+                            <span class="rounded-full bg-stone-100 px-2.5 py-1 text-stone-600 dark:bg-white/10 dark:text-white/70">0{{ $loop->iteration }}</span>
                         </div>
-                        <div class="mt-4 flex flex-col items-center gap-2">
+                        <div class="mt-4 flex flex-grow flex-col">
+                            <h3 class="font-semibold text-ink-900 dark:text-white">{{ $product->name }}</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink-900/60 dark:text-white/60">{{ Str::limit($product->description, 80) }}</p>
+                        </div>
+                        <div class="mt-5 flex w-full flex-col gap-3">
                             <span class="font-display text-2xl font-bold text-ink-900 dark:text-white">
                                 S/ {{ number_format($product->discount_price ?? $product->price, 2) }}
                             </span>
-                            <div
-                                class="glass-pill flex items-center gap-2 rounded-full px-3 py-1 text-xs
-                                                        {{ $product->stock <= 5 ? 'text-red-600' : 'text-forest-700 dark:text-forest-500' }}">
+                            <div class="glass-pill flex items-center gap-2 rounded-full px-3 py-1 text-xs {{ $product->stock <= 5 ? 'text-red-600' : 'text-forest-700 dark:text-forest-500' }}">
                                 @if($product->stock <= 5)
                                     Últimas {{ $product->stock }} unidades
                                 @else
@@ -407,13 +506,13 @@
                             </div>
                         </div>
                         <a href="{{ route('products.show', $product->slug) }}" data-magnetic
-                            class="mt-4 w-full bg-ink-900 dark:bg-forest-600 text-white text-center py-2 rounded-full hover:bg-forest-700 transition-colors text-sm font-medium">
+                            class="mt-5 w-full rounded-full bg-ink-900 px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-forest-700 dark:bg-forest-600 dark:hover:bg-forest-500">
                             Ver producto
                         </a>
                     </div>
                 @endforeach
             </div>
-            <div class="text-center mt-8 sm:hidden">
+            <div class="mt-8 text-center sm:hidden">
                 <a href="{{ route('home') }}" data-magnetic
                     class="inline-block text-sm font-medium text-forest-600 hover:underline">
                     Ver todo el catálogo →
@@ -423,15 +522,18 @@
     </section>
 
     <!-- ===== CATEGORÍAS ===== -->
-    <section class="scroll-section flex items-center bg-stone-50 dark:bg-ink-900">
-        <div class="max-w-7xl mx-auto w-full px-4">
-            <div class="text-center mb-12 section-card">
-                <span class="eyebrow text-forest-600 dark:text-forest-500">Explora</span>
-                <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink-900 dark:text-white mt-2">Compra por
-                    categoría</h2>
-                <p class="text-ink-900/50 dark:text-white/50 mt-3">Encuentra justo lo que necesitas, más rápido</p>
+    <section class="scroll-section section-shell flex items-center bg-stone-50 px-4 py-20 dark:bg-ink-900 sm:py-24">
+        <div class="mx-auto w-full max-w-7xl">
+            <div class="mb-10 text-center section-card">
+                <span class="section-pill text-forest-700 dark:text-forest-400">Explora</span>
+                <h2 class="mt-4 font-display text-3xl md:text-4xl font-semibold text-ink-900 dark:text-white">
+                    Compra por categoría
+                </h2>
+                <p class="mx-auto mt-3 max-w-2xl text-base leading-7 text-ink-900/65 dark:text-white/65">
+                    Encuentra justo lo que necesitas con una navegación más visual y directa.
+                </p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 @php
                     $categorias = [
                         ['title' => 'Muebles', 'slug' => 'muebles', 'color' => '2D4A3E'],
@@ -442,18 +544,17 @@
                 @endphp
                 @foreach($categorias as $cat)
                     <a href="{{ route('home') }}?category={{ $cat['slug'] }}" data-magnetic
-                        class="section-card group relative bg-white dark:bg-ink-900 border border-stone-100 dark:border-white/10 rounded-2xl p-6 min-h-[240px] w-full overflow-hidden transition-all duration-500 hover:shadow-xl block">
-                        <h3
-                            class="text-center text-2xl font-display font-semibold relative z-10 text-forest-600 dark:text-forest-500 my-2 group-hover:text-forest-700 dark:group-hover:text-white transition-colors">
+                        class="section-card group relative block min-h-[240px] overflow-hidden rounded-[1.5rem] border border-stone-200/80 bg-white p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-ink-900">
+                        <div class="absolute inset-0 bg-gradient-to-br from-forest-600/10 via-transparent to-transparent"></div>
+                        <h3 class="relative z-10 text-center text-2xl font-display font-semibold text-forest-700 transition-colors group-hover:text-forest-600 dark:text-forest-400 dark:group-hover:text-white">
                             {{ $cat['title'] }}
                         </h3>
                         <div class="absolute inset-0 flex items-center justify-center p-4">
                             <img src="https://placehold.co/180x180/{{ $cat['color'] }}/FFFFFF?text={{ urlencode($cat['title']) }}&font=raleway"
                                 alt="{{ $cat['title'] }}"
-                                class="w-full max-w-[130px] h-auto object-contain opacity-90 group-hover:scale-110 group-hover:opacity-100 transition-all duration-500 rounded-xl">
+                                class="h-auto w-full max-w-[130px] rounded-xl object-contain opacity-90 transition-all duration-500 group-hover:scale-110 group-hover:opacity-100">
                         </div>
-                        <div
-                            class="glass-pill absolute bottom-4 right-4 w-11 h-11 rounded-full flex items-center justify-center text-forest-600 dark:text-white group-hover:bg-forest-600 group-hover:text-white transition-all duration-300">
+                        <div class="glass-pill absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full text-forest-600 transition-all duration-300 group-hover:bg-forest-600 group-hover:text-white dark:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8m9 0v9" />
@@ -465,20 +566,23 @@
         </div>
     </section>
 
-    <!-- ===== TESTIMONIALS (CORREGIDO: CENTRADO) ===== -->
-    <div class="scroll-section flex items-center justify-center bg-stone-50 dark:bg-ink-900">
-        <x-testimonials />
+    <!-- ===== TESTIMONIALS ===== -->
+    <div class="scroll-section section-shell flex items-center justify-center bg-stone-50 px-4 py-20 dark:bg-ink-900 sm:py-24">
+        <div class="section-panel w-full max-w-7xl rounded-[2rem] border border-stone-200/80 p-6 sm:p-8 lg:p-10">
+            <x-testimonials />
+        </div>
     </div>
 
     <!-- ===== BENEFICIOS ===== -->
-    <section class="scroll-section flex items-center bg-stone-50 dark:bg-ink-900">
-        <div class="max-w-7xl mx-auto w-full px-4">
-            <div class="text-center mb-12 section-card">
-                <span class="eyebrow text-mustard-500">Por qué elegirnos</span>
-                <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink-900 dark:text-white mt-2">Compra con
-                    total confianza</h2>
+    <section class="scroll-section section-shell flex items-center bg-stone-50 px-4 py-20 dark:bg-ink-900 sm:py-24">
+        <div class="mx-auto w-full max-w-7xl">
+            <div class="mb-10 text-center section-card">
+                <span class="section-pill text-mustard-600 dark:text-mustard-400">Por qué elegirnos</span>
+                <h2 class="mt-4 font-display text-3xl md:text-4xl font-semibold text-ink-900 dark:text-white">
+                    Compra con total confianza
+                </h2>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
                 @php
                     $beneficios = [
                         ['title' => 'Envío rápido', 'desc' => 'Recibe tu pedido en tiempo récord, a todo el país.', 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
@@ -487,17 +591,15 @@
                     ];
                 @endphp
                 @foreach($beneficios as $b)
-                    <div class="section-card glass-pill rounded-2xl p-8 text-center">
-                        <div
-                            class="w-14 h-14 mx-auto mb-4 rounded-full bg-forest-600/10 dark:bg-forest-600/20 flex items-center justify-center text-forest-600 dark:text-forest-500">
+                    <div class="section-card rounded-[1.5rem] border border-stone-200/80 bg-white p-8 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-ink-900">
+                        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-forest-600/10 text-forest-600 dark:bg-forest-600/20 dark:text-forest-500">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $b['icon'] }}" />
                             </svg>
                         </div>
-                        <h3 class="font-display text-xl font-semibold text-ink-900 dark:text-white mb-2">{{ $b['title'] }}
-                        </h3>
-                        <p class="text-sm text-ink-900/50 dark:text-white/50">{{ $b['desc'] }}</p>
+                        <h3 class="mb-2 font-display text-xl font-semibold text-ink-900 dark:text-white">{{ $b['title'] }}</h3>
+                        <p class="text-sm leading-6 text-ink-900/60 dark:text-white/60">{{ $b['desc'] }}</p>
                     </div>
                 @endforeach
             </div>
@@ -599,38 +701,33 @@
                 });
             });
 
-            // Secciones (Apple style)
+            // Secciones: revelado suave y estable al bajar, sin reabrirse al subir
             const sections = gsap.utils.toArray('.scroll-section');
             sections.forEach((section, i) => {
                 if (i === 0) return;
-                gsap.from(section, {
-                    yPercent: 35,
-                    opacity: 0,
-                    scale: 0.96,
-                    filter: 'blur(4px)',
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top bottom',
-                        end: 'top center',
-                        scrub: 2,
+
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: 'top 88%',
+                    once: true,
+                    onEnter: function () {
+                        gsap.to(section, {
+                            yPercent: 0,
+                            opacity: 1,
+                            scale: 1,
+                            filter: 'blur(0px)',
+                            duration: 0.85,
+                            ease: 'power3.out',
+                        });
                     }
                 });
-                if (i > 1) {
-                    const prev = sections[i - 1];
-                    gsap.to(prev, {
-                        scale: 0.95,
-                        filter: 'blur(3px)',
-                        opacity: 0.7,
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: section,
-                            start: 'top center',
-                            end: 'top 20%',
-                            scrub: 1.5,
-                        }
-                    });
-                }
+
+                gsap.set(section, {
+                    yPercent: 10,
+                    opacity: 0.95,
+                    scale: 0.985,
+                    filter: 'blur(4px)',
+                });
             });
 
             // Botones magnéticos

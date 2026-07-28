@@ -15,6 +15,8 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 
     Route::resource('productos', AdminProductController::class);
     Route::get('pedidos', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('pedidos/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::get('pedidos/{order}/pdf', [AdminOrderController::class, 'pdf'])->name('orders.pdf');
 });
 
 Route::middleware('auth')->group(function () {

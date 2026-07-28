@@ -31,7 +31,8 @@
                                 </div>
                                 <div>
                                     <p class="font-semibold text-ink-900 dark:text-white">{{ $order->user->name }}</p>
-                                    <p class="text-xs text-ink-900/50 dark:text-white/40">{{ $order->created_at->format('d M Y, H:i') }} · {{ $order->shipping_address }}</p>
+                                    <p class="text-xs text-ink-900/50 dark:text-white/40">
+                                        {{ $order->created_at->format('d M Y, H:i') }} · {{ $order->shipping_address }}</p>
                                 </div>
                             </div>
 
@@ -53,6 +54,10 @@
                             <span class="text-ink-900 dark:text-white">Total</span>
                             <span class="text-mustard-500 font-display text-lg">S/ {{ number_format($order->total, 2) }}</span>
                         </div>
+
+                        <a href="{{ route('orders.show', $order->id) }}" class="inline-flex items-center gap-1 text-sm text-forest-600 hover:underline mt-4">
+                            Ver detalle →
+                        </a>
                     </div>
                 @endforeach
             </div>
@@ -62,7 +67,10 @@
     </div>
 
     <style>
-        .dash-fade { opacity: 0; transform: translateY(20px); }
+        .dash-fade {
+            opacity: 0;
+            transform: translateY(20px);
+        }
     </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

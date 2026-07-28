@@ -16,6 +16,22 @@ class DashboardController extends Controller
             'low_stock' => Product::where('stock', '<=', 5)->orderBy('stock')->get(),
         ];
 
-        return view('dashboard', compact('stats'));
+        $months = collect(range(5, 0))->map(fn ($i) => now()->subMonths($i));
+
+        $monthLabels = $months->map(fn ($d) => ucfirst($d->translatedFormat('M')));
+
+        $monthlyRevenue = $months->map(fn ($d) => (float) Order::whereYear('created_at', $d->year)
+            ->whereMonth('created_at', $d->month)
+            ->sum('total'));
+
+        $totalProducts = max($stats['total_products'], 1);
+        $healthyStock = Product::where('stock', '>', 5)->count();
+        $stockHealthPercent = (int) round(($healthyStock / $totalProducts) * 100);
+
+        $recentOrders = Order::with('user')->latest()->take(5)->get();
+
+        return view('dashboard', compact(
+            'stats', 'monthLabels', 'monthlyRevenue', 'stockHealthPercent', 'recentOrders'
+        ));
     }
 }
